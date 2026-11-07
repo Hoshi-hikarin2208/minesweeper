@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Minesweeper</title>
+  <meta name="description" content="A clean, fast Minesweeper you can play in the browser or install as an app.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Minesweeper">
+  <meta property="og:description" content="A clean, fast Minesweeper you can play in the browser or install as an app.">
+  <meta name="theme-color" content="#eef1f6" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f141c" media="(prefers-color-scheme: dark)">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon-180.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header class="top">
+      <h1>Minesweeper</h1>
+      <div class="levels" role="group" aria-label="Difficulty">
+        <button type="button" data-level="beginner" aria-pressed="true">Beginner</button>
+        <button type="button" data-level="intermediate" aria-pressed="false">Intermediate</button>
+        <button type="button" data-level="expert" aria-pressed="false">Expert</button>
+      </div>
+    </header>
+
+    <section class="hud" aria-label="Game status">
+      <div class="stat">
+        <span class="stat-label">Mines</span>
+        <div class="lcd" id="mines">010</div>
+      </div>
+      <button type="button" class="face" id="face" aria-label="New game" title="New game (R)">🙂</button>
+      <div class="stat">
+        <span class="stat-label">Seconds</span>
+        <div class="lcd" id="time">000</div>
+      </div>
+    </section>
+
+    <div class="board-wrap">
+      <div class="board" id="board" role="group" aria-label="Minefield"></div>
+    </div>
+
+    <p class="status" id="status" aria-live="polite"></p>
+
+    <div class="tools">
+      <button type="button" class="btn" id="flag-mode" aria-pressed="false" title="Tap squares to place flags instead of opening them">🚩 Flag mode</button>
+      <button type="button" class="btn" id="new-game">New game</button>
+    </div>
+
+    <footer class="foot">
+      <p id="best" class="best"></p>
+      <p class="help">Click to reveal · Right-click or long-press to flag · Click a number to chord · Arrow keys + Space / F · R for a new game</p>
+    </footer>
+  </main>
+
+  <script src="engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

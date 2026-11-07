@@ -1,0 +1,15 @@
+{
+  "name": "minesweeper",
+  "version": "1.0.0",
+  "description": "A fast, clean Minesweeper for the browser. Installable as an app, no dependencies.",
+  "private": true,
+  "license": "MIT",
+  "keywords": ["minesweeper", "game", "pwa", "javascript", "vanilla-js"],
+  "scripts": {
+    "test": "node --test",
+    "serve": "python3 -m http.server 8000"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

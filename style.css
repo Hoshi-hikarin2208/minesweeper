@@ -1,0 +1,286 @@
+:root {
+  color-scheme: light dark;
+  --cell: 32px;
+
+  --bg: #eef1f6;
+  --panel: #ffffff;
+  --ink: #1b2333;
+  --muted: #5d6b82;
+  --line: #d5dbe6;
+
+  --hidden-top: #dfe6f4;
+  --hidden: #c6d1e6;
+  --hidden-edge: #a5b3cf;
+  --open: #f3f5fa;
+
+  --accent: #3b6df0;
+  --danger: #e5484d;
+  --danger-soft: #fde8e8;
+  --good: #1a7f37;
+
+  --lcd-bg: #1a1210;
+  --lcd: #ff5a4d;
+
+  --n1: #1d4ed8;
+  --n2: #15803d;
+  --n3: #dc2626;
+  --n4: #6d28d9;
+  --n5: #b45309;
+  --n6: #0e7490;
+  --n7: #111827;
+  --n8: #6b7280;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f141c;
+    --panel: #171e29;
+    --ink: #e7ecf5;
+    --muted: #9aa7bc;
+    --line: #2a3445;
+
+    --hidden-top: #4b5d80;
+    --hidden: #3b4b6a;
+    --hidden-edge: #2a3752;
+    --open: #1f2836;
+
+    --accent: #4f7df5;
+    --danger-soft: #4a2326;
+    --good: #4ade80;
+
+    --n1: #6ea8ff;
+    --n2: #4ade80;
+    --n3: #ff7b7b;
+    --n4: #b794ff;
+    --n5: #fbbf24;
+    --n6: #22d3ee;
+    --n7: #e5e7eb;
+    --n8: #9ca3af;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; }
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))
+           max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  background: var(--bg);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.app {
+  width: max-content;
+  max-width: 100%;
+  min-width: min(100%, 340px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgb(15 23 42 / 0.08);
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.35rem;
+  letter-spacing: -0.01em;
+}
+
+button { font: inherit; color: inherit; }
+
+.levels {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.levels button {
+  appearance: none;
+  border: 0;
+  border-right: 1px solid var(--line);
+  background: transparent;
+  padding: 9px 13px;
+  min-height: 40px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.levels button:last-child { border-right: 0; }
+
+.levels button[aria-pressed="true"],
+.btn[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.hud {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.stat { display: flex; flex-direction: column; gap: 4px; }
+.stat-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.lcd {
+  min-width: 4.4ch;
+  padding: 4px 12px;
+  background: var(--lcd-bg);
+  color: var(--lcd);
+  border-radius: 10px;
+  font: 700 1.7rem/1.25 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  letter-spacing: 0.08em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.face {
+  appearance: none;
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: var(--open);
+  font-size: 1.9rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.face:active { transform: translateY(1px); }
+
+.board-wrap {
+  overflow: auto;
+  max-width: 100%;
+  padding: 3px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 9), var(--cell));
+  grid-auto-rows: var(--cell);
+  gap: 2px;
+  width: max-content;
+  margin: 0 auto;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.cell {
+  appearance: none;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: linear-gradient(var(--hidden-top), var(--hidden));
+  box-shadow: inset 0 -2px 0 var(--hidden-edge);
+  font: 800 calc(var(--cell) * 0.55)/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+  .cell:not(.open):hover { filter: brightness(1.07); }
+}
+
+.cell.flag,
+.cell.mine,
+.cell.wrong { font-size: calc(var(--cell) * 0.5); }
+
+.cell.open {
+  background: var(--open);
+  box-shadow: inset 0 0 0 1px var(--line);
+  cursor: default;
+}
+
+.cell.mine { background: var(--open); box-shadow: inset 0 0 0 1px var(--line); }
+.cell.boom { background: var(--danger); box-shadow: none; }
+.cell.wrong { background: var(--danger-soft); box-shadow: inset 0 0 0 1px var(--danger); }
+
+.cell[data-n="1"] { color: var(--n1); }
+.cell[data-n="2"] { color: var(--n2); }
+.cell[data-n="3"] { color: var(--n3); }
+.cell[data-n="4"] { color: var(--n4); }
+.cell[data-n="5"] { color: var(--n5); }
+.cell[data-n="6"] { color: var(--n6); }
+.cell[data-n="7"] { color: var(--n7); }
+.cell[data-n="8"] { color: var(--n8); }
+
+.cell:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 1px;
+  position: relative;
+  z-index: 1;
+}
+
+.status {
+  min-height: 1.4em;
+  margin: 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.status.win { color: var(--good); font-weight: 700; }
+.status.lose { color: var(--danger); font-weight: 700; }
+
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn {
+  appearance: none;
+  min-height: 42px;
+  padding: 8px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  cursor: pointer;
+}
+
+.btn:focus-visible,
+.levels button:focus-visible,
+.face:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.foot { text-align: center; }
+.foot p { margin: 0; color: var(--muted); font-size: 0.8rem; line-height: 1.5; }
+.best { margin-bottom: 6px !important; }
+
+@media (max-width: 420px) {
+  .app { padding: 12px; gap: 12px; }
+  .lcd { font-size: 1.45rem; }
+  .levels button { padding: 9px 10px; font-size: 0.85rem; }
+}
